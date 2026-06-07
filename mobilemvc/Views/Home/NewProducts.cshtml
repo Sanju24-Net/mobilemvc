@@ -1,0 +1,143 @@
+﻿@model List<mobilemvc.Models.Product>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Products</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: white;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        /* GRID */
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding-bottom: 70px;
+        }
+
+        /* PRODUCT CARD */
+        .card {
+            width: 220px;
+            max-width: 90%;
+            padding: 15px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: 0.4s;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 0 20px #00e5ff;
+        }
+
+        .card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            height: auto;
+        }
+
+        .price {
+            color: #00e5ff;
+            font-weight: bold;
+        }
+
+        /* EMPTY STATE */
+        .empty {
+            text-align: center;
+            margin-top: 100px;
+            font-size: 22px;
+            animation: blink 1s infinite;
+            color: #ff4d6d;
+        }
+
+        @@keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.2; }
+            100% { opacity: 1; }
+        }
+
+        /* 📱 MOBILE RESPONSIVE */
+        @@media (max-width: 768px) {
+
+            h2 {
+                font-size: 20px;
+            }
+
+            .container {
+                gap: 15px;
+            }
+
+            .card {
+                width: 90%;
+            }
+
+            .card h3 {
+                font-size: 16px;
+            }
+
+            .card p {
+                font-size: 14px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <h2>🆕 New Products</h2>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="empty">
+            ❌ No Products Found
+        </div>
+    }
+    else
+    {
+        <div class="container">
+
+            @foreach (var item in Model)
+            {
+                <div class="card">
+                    <img src="/product/@item.ImageFileName" />
+                    <h3>@item.Name</h3>
+                    <p>@item.Brand</p>
+                    <p class="price">₹@item.Price</p>
+                </div>
+            }
+
+        </div>
+    }
+
+</body>
+</html>

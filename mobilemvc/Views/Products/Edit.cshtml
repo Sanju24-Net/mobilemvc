@@ -1,0 +1,212 @@
+﻿@model ProductDto
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Product</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: white;
+            padding: 15px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .form-box {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        label {
+            width: 30%;
+            padding: 10px;
+        }
+
+        .input-box {
+            width: 70%;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            background: linear-gradient(90deg, #00e5ff, #ff00cc);
+            color: white;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            transform: scale(1.03);
+        }
+
+        /* 📱 MOBILE */
+        @@media (max-width: 768px) {
+
+            label, .input-box {
+                width: 100%;
+            }
+
+            label {
+                padding-bottom: 5px;
+            }
+
+            .btn-row {
+                flex-direction: column;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2>Edit Product</h2>
+
+        <div class="form-box">
+
+            <form method="post" enctype="multipart/form-data">
+
+                <div class="row">
+                    <label>Id</label>
+                    <div class="input-box">
+                        <input class="form-control-plaintext" readonly value="@ViewData["ProductId"]" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label>Name</label>
+                    <div class="input-box">
+                        <input asp-for="Name" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label>Brand</label>
+                    <div class="input-box">
+                        <input asp-for="Brand" />
+                        <span asp-validation-for="Brand" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label>Category</label>
+                    <div class="input-box">
+                        <select asp-for="Category">
+                            <option>Other</option>
+                            <option>Mobile</option>
+                            <option>Computers</option>
+                            <option>Accessories</option>
+                            <option>Printers</option>
+                            <option>Cameras</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label>Price</label>
+                    <div class="input-box">
+                        <input asp-for="Price" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label>Description</label>
+                    <div class="input-box">
+                        <input asp-for="Description" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label>Old Image</label>
+                    <div class="input-box">
+                        <img src="/product/@ViewData["ImageFileName"]" width="150" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label>New Image</label>
+                    <div class="input-box">
+                        <input asp-for="ImageFile" />
+                        <span asp-validation-for="ImageFile" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label>Created At</label>
+                    <div class="input-box">
+                        <input class="form-control-plaintext" readonly value="@ViewData["CreatedAt"]" />
+                    </div>
+                </div>
+
+                <div class="btn-row">
+                    <button class="btn" type="submit">Submit</button>
+                    <a class="btn" asp-controller="Products" asp-action="Index">Cancel</a>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</body>
+</html>

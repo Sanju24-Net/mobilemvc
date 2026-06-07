@@ -1,0 +1,272 @@
+﻿@model mobilemvc.Models.LoginModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Store Login</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            padding: 10px;
+        }
+
+        .circle {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.5;
+        }
+
+        .c1 {
+            background: #ff00cc;
+            top: 10%;
+            left: 15%;
+        }
+
+        .c2 {
+            background: #00e5ff;
+            bottom: 10%;
+            right: 15%;
+        }
+
+        .login-box {
+            width: 380px;
+            max-width: 95%;
+            padding: 30px;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            color: white;
+            box-shadow: 0 0 25px rgba(0,0,0,0.5);
+            text-align: center;
+            z-index: 2;
+        }
+
+        /* LOGO */
+        .logo {
+            width: 75px;
+            margin-bottom: 10px;
+            transition: 0.4s;
+            cursor: pointer;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .logo:hover {
+            transform: scale(1.2) rotate(10deg);
+            filter: drop-shadow(0 0 15px #00e5ff);
+        }
+
+        h2 {
+            margin: 10px 0 20px;
+            font-size: 22px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 10px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #00e5ff, #ff00cc);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            transform: scale(1.03);
+        }
+
+        .link {
+            color: #00e5ff;
+            font-size: 13px;
+            cursor: pointer;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+            font-size: 13px;
+        }
+
+        /* PASSWORD */
+        .pass-wrap {
+            position: relative;
+        }
+
+        .pass-wrap i {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: gray;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* SOCIAL */
+        .social {
+            margin-top: 18px;
+        }
+
+        .social a {
+            margin: 0 10px;
+            font-size: 18px;
+            color: white;
+            transition: 0.3s;
+        }
+
+        .social a:hover {
+            color: #00e5ff;
+            transform: scale(1.2);
+        }
+
+        /* 📱 MOBILE */
+        @@media (max-width: 768px) {
+
+            .login-box {
+                width: 95%;
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 18px;
+            }
+
+            input {
+                font-size: 13px;
+                padding: 10px;
+            }
+
+            .btn {
+                font-size: 14px;
+            }
+
+            .social a {
+                font-size: 16px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="circle c1"></div>
+    <div class="circle c2"></div>
+
+    <div class="login-box">
+
+        <!-- LOGO -->
+        <img class="logo"
+             src="https://cdn-icons-png.flaticon.com/512/15/15874.png" />
+
+        <h2>MOBILE STORE</h2>
+
+        <!-- LOGIN -->
+        <form method="post" asp-action="Login">
+
+            <input asp-for="Username" placeholder="Username" />
+
+            <div class="pass-wrap">
+                <input asp-for="Password" type="password" id="pass" placeholder="Password" />
+                <i class="fa fa-eye" onclick="togglePass()"></i>
+            </div>
+
+            <button class="btn" type="submit">LOGIN</button>
+
+            <span class="link" onclick="showForgot()">Forgot Password?</span>
+
+            <div class="error">@ViewBag.Error</div>
+
+        </form>
+
+        <!-- FORGOT -->
+        <div id="forgotBox" class="hidden">
+
+            <h3>Reset Password</h3>
+
+            <form method="post" asp-action="ResetPassword">
+
+                <input name="username" placeholder="Enter Username" />
+                <input name="newPassword" type="password" placeholder="New Password" />
+
+                <button class="btn" type="submit">Update Password</button>
+
+            </form>
+
+            <span class="link" onclick="backToLogin()">Back to Login</span>
+
+        </div>
+
+        <!-- SOCIAL -->
+        <div class="social">
+            <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+        </div>
+
+    </div>
+
+    <script>
+
+        function togglePass() {
+            var p = document.getElementById("pass");
+            p.type = (p.type === "password") ? "text" : "password";
+        }
+
+        function showForgot() {
+            document.getElementById("forgotBox").classList.add("hidden");
+            document.getElementById("forgotBox").classList.remove("hidden");
+        }
+
+        function backToLogin() {
+            document.getElementById("forgotBox").classList.add("hidden");
+        }
+
+    </script>
+
+</body>
+</html>

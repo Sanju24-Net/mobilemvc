@@ -1,0 +1,198 @@
+﻿@model List<mobilemvc.Models.Product>
+
+<h2 class="text-center mb-4">📱 Product List</h2>
+
+<!-- 🔍 SEARCH + BUTTON -->
+<div class="row mb-3">
+
+    <div class="col-md-4 col-12">
+        <input type="text" id="searchBox" class="form-control"
+               placeholder="🔍 Search products..." />
+    </div>
+
+    <div class="col text-end col-12 col-md-8 mt-2 mt-md-0">
+        <a class="btn btn-primary"
+           asp-controller="Products"
+           asp-action="Create">
+            ➕ New Product
+        </a>
+    </div>
+
+</div>
+
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial;
+        background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+        color: white;
+        padding: 10px 10px 70px;
+        overflow-x: hidden;
+    }
+
+    .navbar {
+        display: none !important;
+    }
+
+    /* TITLE */
+    h2 {
+        text-align: center;
+        color: white;
+        animation: blinkGlow 2s infinite;
+        font-size: 28px;
+    }
+
+    @@keyframes blinkGlow {
+        0% { text-shadow: 0 0 5px #00e5ff; }
+        50% { text-shadow: 0 0 20px #ff00cc; }
+        100% { text-shadow: 0 0 5px #00e5ff; }
+    }
+
+    /* TABLE WRAPPER */
+    .table-responsive {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    /* TABLE */
+    .table {
+        width: 100%;
+        min-width: 800px;
+        background: rgba(255,255,255,0.05);
+        color: white;
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    thead {
+        background: rgba(0,0,0,0.7);
+    }
+
+    tbody tr {
+        transition: 0.3s;
+    }
+
+    tbody tr:hover {
+        background: rgba(255,255,255,0.1);
+        transform: scale(1.01);
+        box-shadow: 0 0 15px #00e5ff;
+    }
+
+    /* BUTTONS */
+    .btn {
+        transition: 0.3s;
+    }
+
+    .btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 10px #00e5ff;
+    }
+
+    /* IMAGE */
+    img {
+        transition: 0.3s;
+        max-width: 80px;
+        height: auto;
+    }
+
+    img:hover {
+        transform: scale(1.2);
+    }
+
+    /* 📱 MOBILE */
+    @@media (max-width: 768px) {
+
+        h2 {
+            font-size: 20px;
+        }
+
+        .btn {
+            width: 100%;
+        }
+
+        input {
+            width: 100%;
+        }
+
+        td, th {
+            font-size: 12px;
+        }
+
+    }
+
+</style>
+
+<!-- 📱 TABLE WRAPPER -->
+<div class="table-responsive">
+
+<table class="table table-bordered align-middle" id="productTable">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Brand</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Image</th>
+            <th>Created At</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @{
+            int i = 1;
+        }
+
+        @foreach (var product in Model)
+        {
+            <tr class="productRow">
+                <td>@i</td>
+                <td>@product.Name</td>
+                <td>@product.Brand</td>
+                <td>@product.Category</td>
+                <td>₹@product.Price.ToString("N0")</td>
+                <td>
+                    <img src="/product/@product.ImageFileName" />
+                </td>
+                <td>@product.CreatedAt.ToString("MM/dd/yyyy")</td>
+
+                <td style="white-space:nowrap">
+
+                    <a class="btn btn-primary btn-sm"
+                       asp-action="Edit"
+                       asp-route-id="@product.Id">Edit</a>
+
+                    <a class="btn btn-danger btn-sm"
+                       asp-action="Delete"
+                       asp-route-id="@product.Id"
+                       onclick="return confirm('Are you sure ?')">Delete</a>
+
+                </td>
+            </tr>
+
+            i++;
+        }
+    </tbody>
+</table>
+
+</div>
+
+<!-- 🔍 SEARCH SCRIPT -->
+<script>
+    document.getElementById("searchBox").addEventListener("keyup", function () {
+        let value = this.value.toLowerCase();
+        let rows = document.querySelectorAll(".productRow");
+
+        rows.forEach(row => {
+            let text = row.innerText.toLowerCase();
+            row.style.display = text.includes(value) ? "" : "none";
+        });
+    });
+</script>

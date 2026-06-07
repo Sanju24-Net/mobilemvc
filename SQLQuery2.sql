@@ -1,0 +1,9 @@
+﻿IF COL_LENGTH('Products', 'ImageFileName') IS NULL
+BEGIN
+    ALTER TABLE Products ADD ImageFileName NVARCHAR(255) NOT NULL DEFAULT '';
+END
+
+IF COL_LENGTH('Products', 'CreatedAt') IS NULL
+BEGIN
+    ALTER TABLE Products ADD CreatedAt DATETIME NOT NULL DEFAULT GETDATE();
+END
