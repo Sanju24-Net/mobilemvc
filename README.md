@@ -16,5 +16,13 @@
 ## Project Output
 Run in Visual Studio using IIS Express
 
+## Project Screenshots
+![Login Page](Screenshots/login.png)
+![Home Page](Screenshots/home.png)
+![Products](Screenshots/products.png)
+![create](Screenshots/create.png)
+![edit](Screenshots/edit.png)
+
+
 ## Author
 Sanju
